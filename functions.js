@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const marked = require('marked')
+const axios = require('axios')
 
 function processFile(file) {
   return new Promise((resolve, reject) => {
@@ -31,29 +32,44 @@ function processFile(file) {
   })
 }
 
-function getLinks(arrayFilesMD) {
+function processLink(link) {
   return new Promise((resolve, reject) => {
 
-    if (arrayFilesMD.length === 0) {
-      resolve('No hay archivos .md')
-    }
+    axios.get(link.href)
+      .then((response) => {
+        link.status = response.status
+        link.ok = response.statusText
+        resolve(link)
+      })
+      .catch((error) => {
+        if (error.response) {
+          link.status = error.response.status
+        }
+        else {
+          link.status = 'Without response from server'
+        }
+        link.ok = 'fail'
+        resolve(link)
+      })
+  })
+}
 
+function validateLinks(arrayAllLinks) {
+  return new Promise((resolve, reject) => {
+    const arrayValidated = arrayAllLinks.map((link) => processLink(link))
+    Promise.all(arrayValidated).then((val) => resolve(val))
+  })
+}
+
+function getLinks(arrayFilesMD) {
+  return new Promise((resolve, reject) => {
     const arrayAllLinks = arrayFilesMD.map((file) => processFile(file))
-
-    Promise.all(arrayAllLinks).then((val) => {
-      if (val.flat().length === 0) {
-        resolve('No hay links')
-      }
-      else {
-        resolve(val.flat())
-      }
-    })
+    Promise.all(arrayAllLinks).then((val) => resolve(val.flat()))
   })
 }
 
 function getFilesMD(arrayFiles) {
   const arrayFilesMD = arrayFiles.filter(element => path.extname(element) === '.md')
-
   return arrayFilesMD
 }
 
@@ -91,4 +107,4 @@ function getFiles(newPath) {
   return arrayFiles;
 }
 
-module.exports = { getLinks, pathIsAbsolute, getFiles, getFilesMD }
+module.exports = { getLinks, pathIsAbsolute, getFiles, getFilesMD, validateLinks }
