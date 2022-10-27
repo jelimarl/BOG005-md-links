@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const marked = require('marked')
-const axios = require('axios')
+const axios = require('axios');
 
 function processFile(file) {
   return new Promise((resolve, reject) => {
@@ -17,7 +17,7 @@ function processFile(file) {
       renderer.link = function (href, title, text) {
         const linkData = {
           'href': href,
-          'text': text,
+          'text': text.split('').slice(0, 50).join(''),
           'file': file
         }
 
@@ -54,9 +54,9 @@ function processLink(link) {
   })
 }
 
-function validateLinks(arrayAllLinks) {
+function validateLinks(arrayLinks) {
   return new Promise((resolve, reject) => {
-    const arrayValidated = arrayAllLinks.map((link) => processLink(link))
+    const arrayValidated = arrayLinks.map((link) => processLink(link))
     Promise.all(arrayValidated).then((val) => resolve(val))
   })
 }
@@ -69,7 +69,7 @@ function getLinks(arrayFilesMD) {
 }
 
 function getFilesMD(arrayFiles) {
-  const arrayFilesMD = arrayFiles.filter(element => path.extname(element) === '.md')
+  const arrayFilesMD = arrayFiles.filter((file) => path.extname(file) === '.md')
   return arrayFilesMD
 }
 
@@ -91,7 +91,7 @@ function getFiles(newPath) {
 
   else {
     const arrayDirectory = fs.readdirSync(newPath)
-    arrayDirectory.forEach(element => {
+    arrayDirectory.forEach((element) => {
       let childPath = path.join(newPath, element)
 
       if (fs.statSync(childPath).isDirectory()) {
@@ -107,4 +107,46 @@ function getFiles(newPath) {
   return arrayFiles;
 }
 
-module.exports = { getLinks, pathIsAbsolute, getFiles, getFilesMD, validateLinks }
+const arrayTest = [
+  {
+    href: 'https://es.wikipedia.org/wiki/Markdown',
+    text: 'Markdown',
+    file: 'C:\\Users\\jelim\\OneDrive\\Documentos\\laboratoria\\BOG005-md-links\\Prueba2\\PruebaB.md',
+    status: 200,
+    ok: 'OK'
+  },
+  {
+    href: 'https://n.odejs.org/',
+    text: 'Node.js',
+    file: 'C:\\Users\\jelim\\OneDrive\\Documentos\\laboratoria\\BOG005-md-links\\Prueba2\\PruebaB.md',
+    status: 'Without response from server',
+    ok: 'fail'
+  }
+]
+
+function statsValidateFalse(arrayLinks) {
+  const arrayHref = []
+  arrayLinks.forEach((link) => arrayHref.push(link.href))
+
+  return {
+    Total: arrayLinks.length,
+    Unique: new Set(arrayHref).size
+  }
+}
+
+function statsValidateTrue(arrayLinks) {
+  const arrayHref = []
+  arrayLinks.forEach((link) => arrayHref.push(link.href))
+  const arrayBrokenLinks = arrayLinks.filter((link) => link.ok === 'fail')
+
+  return {
+    Total: arrayLinks.length,
+    Unique: new Set(arrayHref).size,
+    Broken: arrayBrokenLinks.length
+  }
+}
+
+console.log(statsValidateFalse(arrayTest))
+console.log(statsValidateTrue(arrayTest))
+
+module.exports = { getLinks, pathIsAbsolute, getFiles, getFilesMD, validateLinks, statsValidateFalse, statsValidateTrue }

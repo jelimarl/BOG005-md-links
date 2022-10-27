@@ -4,37 +4,42 @@ const chalk = require('chalk')
 function mdLinks(path, options) {
   return new Promise((resolve, reject) => {
 
-    const absolutePath = pathIsAbsolute(path);
-    const files = getFiles(absolutePath);
-    const filesMD = getFilesMD(files)
-    const links = getLinks(filesMD)
-
-    if (options.validate === true) {
-
-      if (filesMD.length === 0) {
-        resolve('There are no .md files')
-      }
-
-      links.then((val) => {
-        if (val.length === 0) {
-          resolve('There are no links')
+    try {
+      const absolutePath = pathIsAbsolute(path);
+      const files = getFiles(absolutePath);
+      const filesMD = getFilesMD(files)
+      const links = getLinks(filesMD)
+  
+      if (options.validate === true) {
+  
+        if (filesMD.length === 0) {
+          resolve('There are no .md files')
         }
-        const validatedLinks = validateLinks(val)
-        resolve(validatedLinks)
-      })
+  
+        links.then((val) => {
+          if (val.length === 0) {
+            resolve('There are no links')
+          }
+          const validatedLinks = validateLinks(val)
+          resolve(validatedLinks)
+        })
+      }
+  
+      else {
+        if (filesMD.length === 0) {
+          resolve('There are no .md files')
+        }
+        links.then((val) => {
+          if (val.length === 0) {
+            resolve('There are no links')
+          }
+          resolve(val)
+        })
+      }
+    } catch (error) {
+      console.log('Path does not exist')
     }
 
-    else {
-      if (filesMD.length === 0) {
-        resolve('There are no .md files')
-      }
-      links.then((val) => {
-        if (val.length === 0) {
-          resolve('There are no links')
-        }
-        resolve(val)
-      })
-    }
   })
 }
 
