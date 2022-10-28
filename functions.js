@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const marked = require('marked')
 const axios = require('axios');
+const chalk = require('chalk')
 
 function processFile(file) {
   return new Promise((resolve, reject) => {
@@ -46,7 +47,7 @@ function processLink(link) {
           link.status = error.response.status
         }
         else {
-          link.status = 'Without response from server'
+          link.status = chalk.yellow('Without response from server')
         }
         link.ok = 'fail'
         resolve(link)
@@ -124,17 +125,7 @@ const arrayTest = [
   }
 ]
 
-function statsValidateFalse(arrayLinks) {
-  const arrayHref = []
-  arrayLinks.forEach((link) => arrayHref.push(link.href))
-
-  return {
-    Total: arrayLinks.length,
-    Unique: new Set(arrayHref).size
-  }
-}
-
-function statsValidateTrue(arrayLinks) {
+function statsLinks(arrayLinks) {
   const arrayHref = []
   arrayLinks.forEach((link) => arrayHref.push(link.href))
   const arrayBrokenLinks = arrayLinks.filter((link) => link.ok === 'fail')
@@ -146,7 +137,4 @@ function statsValidateTrue(arrayLinks) {
   }
 }
 
-console.log(statsValidateFalse(arrayTest))
-console.log(statsValidateTrue(arrayTest))
-
-module.exports = { getLinks, pathIsAbsolute, getFiles, getFilesMD, validateLinks, statsValidateFalse, statsValidateTrue }
+module.exports = { getLinks, pathIsAbsolute, getFiles, getFilesMD, validateLinks, statsLinks }
