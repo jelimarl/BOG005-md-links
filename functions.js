@@ -10,7 +10,6 @@ function processFile(file) {
 
     fs.readFile(file, 'utf8', (error, dataFile) => {
       if (error) {
-        console.log(error);
         resolve(error)
       }
 
@@ -47,7 +46,7 @@ function processLink(link) {
           link.status = error.response.status
         }
         else {
-          link.status = chalk.yellow('Without response from server')
+          link.status = 'Without response from server'
         }
         link.ok = 'fail'
         resolve(link)
@@ -107,23 +106,6 @@ function getFiles(newPath) {
 
   return arrayFiles;
 }
-
-const arrayTest = [
-  {
-    href: 'https://es.wikipedia.org/wiki/Markdown',
-    text: 'Markdown',
-    file: 'C:\\Users\\jelim\\OneDrive\\Documentos\\laboratoria\\BOG005-md-links\\Prueba2\\PruebaB.md',
-    status: 200,
-    ok: 'OK'
-  },
-  {
-    href: 'https://n.odejs.org/',
-    text: 'Node.js',
-    file: 'C:\\Users\\jelim\\OneDrive\\Documentos\\laboratoria\\BOG005-md-links\\Prueba2\\PruebaB.md',
-    status: 'Without response from server',
-    ok: 'fail'
-  }
-]
 
 function statsLinks(arrayLinks) {
   const arrayHref = []

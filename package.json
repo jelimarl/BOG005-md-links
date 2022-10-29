@@ -1,12 +1,40 @@
 {
-  "name": "md-links",
+  "name": "jleon-md-links",
   "version": "0.1.0",
   "engines": {
     "node": ">=14.x"
+  },
+  "description": "Library that searches markdown files and validates links",
+  "keywords": [
+    "md-links",
+    "links"
+  ],
+  "homepage": "https://github.com/jelimarl/BOG005-md-links#readme",
+  "bugs": {
+    "url": "https://github.com/jelimarl/BOG005-md-links/issues"
+  },
+  "license": "MIT",
+  "author": "Jelimar Leon",
+  "main": "index.js",
+  "bin": {
+    "md-links": "./cli.js"
+  },
+  "directories": {
+    "test": "./test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jelimarl/BOG005-md-links.git"
+  },
+  "scripts": {
+    "test": "jest --coverage"
   },
   "dependencies": {
     "axios": "^1.1.3",
     "chalk": "^4.1.2",
     "marked": "^4.1.1"
+  },
+  "devDependencies": {
+    "jest": "^29.2.2"
   }
 }
