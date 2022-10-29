@@ -1,58 +1,52 @@
 const { mdLinks } = require('../index');
 const { statsLinks } = require('../functions')
 const dataMocks = require('./data-mocks.js');
-const { default: axios } = require('axios');
-
-// jest.mock("axios", () => {
-//   return axios.get(() => Promise.resolve({ status: 200, statusText: "OK" }))
-// });
-
-// jest.mock("axios");
-
-// axios.get.mockResolvedValueOnce({ status: 200, statusText: "OK" });
-
-// jest.mock("axios", () => {
-//   return axios.get.mockResolvedValueOnce({ status: 200, statusText: "OK" })
-// });
 
 describe('mdLinks', () => {
 
-  it('should...', () => {
+  it('checks when user does not write a path', () => {
+
+    return mdLinks({ validate: false }).then((value) => {
+      expect(value).toEqual('That path does not exist')
+    })
+  });
+
+  it('checks when user writes a wrong path', () => {
 
     return mdLinks('hola', { validate: false }).then((value) => {
       expect(value).toEqual('That path does not exist')
     })
   });
 
-  it('should...', () => {
+  it('checks a file that is not markdown', () => {
 
     return mdLinks('index.js', { validate: false }).then((value) => {
       expect(value).toEqual('There are no .md files')
     })
   });
 
-  it('should...', () => {
+  it('checks a markdown file without http links', () => {
 
     return mdLinks('file-test.md', { validate: false }).then((value) => {
       expect(value).toEqual('There are no links')
     })
   });
 
-  it('should...', () => {
+  it('checks an empty folder', () => {
 
     return mdLinks('empty-dir', { validate: false }).then((value) => {
       expect(value).toEqual('There are no .md files')
     })
   });
 
-  it('should...', () => {
+  it('checks option validate: false, with a folder that has files and another folder inside', () => {
 
     return mdLinks(dataMocks.pathDir, { validate: false }).then((value) => {
       expect(value).toEqual(dataMocks.arrayValidateFalse)
     })
   });
 
-  it('should...', () => {
+  it('checks option validate: true, with a folder that has files and another folder inside', () => {
 
     return mdLinks(dataMocks.pathDir, { validate: true }).then((value) => {
       expect(value).toEqual(dataMocks.arrayValidateTrue)
@@ -63,7 +57,7 @@ describe('mdLinks', () => {
 
 describe('statsLinks', () => {
 
-  it('should...', () => {
+  it('checks all the stats when validate: true', () => {
 
     expect(statsLinks(dataMocks.arrayValidateTrue)).toEqual(dataMocks.stats)
   });
