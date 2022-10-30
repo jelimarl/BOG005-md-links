@@ -32,9 +32,9 @@ describe('mdLinks', () => {
     })
   });
 
-  it('checks an empty folder', () => {
+  it('checks an empty folder (absolute path)', () => {
 
-    return mdLinks('empty-dir', { validate: false }).then((value) => {
+    return mdLinks('C:/Users/jelim/OneDrive/Documentos/laboratoria/BOG005-md-links/empty-dir', { validate: true }).then((value) => {
       expect(value).toEqual('There are no .md files')
     })
   });
@@ -60,6 +60,11 @@ describe('statsLinks', () => {
   it('checks all the stats when validate: true', () => {
 
     expect(statsLinks(dataMocks.arrayValidateTrue)).toEqual(dataMocks.stats)
+  });
+
+  it('checks when function receives an empty array', () => {
+
+    expect(statsLinks([])).toEqual({ Total: 0, Unique: 0, Broken: 0 })
   });
 
 })

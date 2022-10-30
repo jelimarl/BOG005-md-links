@@ -2,7 +2,6 @@ const fs = require('fs');
 const path = require('path');
 const marked = require('marked')
 const axios = require('axios');
-const chalk = require('chalk')
 
 function processFile(file) {
   return new Promise((resolve, reject) => {

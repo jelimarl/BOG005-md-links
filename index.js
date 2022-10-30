@@ -12,7 +12,7 @@ function mdLinks(path, options) {
       if (options.validate === true) {
 
         if (filesMD.length === 0) {
-          resolve('There are no .md files')
+          resolve('There are no markdown files')
         }
 
         links.then((value) => {
@@ -26,7 +26,7 @@ function mdLinks(path, options) {
 
       else {
         if (filesMD.length === 0) {
-          resolve('There are no .md files')
+          resolve('There are no markdown files')
         }
         links.then((value) => {
           if (value.length === 0) {
@@ -41,9 +41,5 @@ function mdLinks(path, options) {
 
   })
 }
-
-// mdLinks('function.js', { validate: true }).then((val) => console.log(val))
-// mdLinks('dir-test1', { validate: true }).then((val) => console.log(val))
-// mdLinks('C:/Users/jelim/OneDrive/Documentos/laboratoria/BOG005-md-links/node_modules', { validate: true }).then((val) => console.log(val))
 
 module.exports = { mdLinks }
