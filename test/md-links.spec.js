@@ -21,7 +21,7 @@ describe('mdLinks', () => {
   it('checks a file that is not markdown', () => {
 
     return mdLinks('index.js', { validate: false }).then((value) => {
-      expect(value).toEqual('There are no .md files')
+      expect(value).toEqual('There are no markdown files')
     })
   });
 
@@ -35,7 +35,7 @@ describe('mdLinks', () => {
   it('checks an empty folder (absolute path)', () => {
 
     return mdLinks('C:/Users/jelim/OneDrive/Documentos/laboratoria/BOG005-md-links/empty-dir', { validate: true }).then((value) => {
-      expect(value).toEqual('There are no .md files')
+      expect(value).toEqual('There are no markdown files')
     })
   });
 
