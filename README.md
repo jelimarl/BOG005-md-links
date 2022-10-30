@@ -2,9 +2,9 @@
 
 jleon-md-links is a library that can get http links from markdown files. Besides basic information about links, it gives some stats:
 
-*Total* 
-*Unique links*
-*Broken links*
+*Total* <br> 
+*Unique links* <br>
+*Broken links* 
 
 ## Table of Contents
 
