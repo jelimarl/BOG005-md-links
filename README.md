@@ -26,7 +26,7 @@ On the command line run this:
 
 **Import** the library with `require()`
 ```js
-const mdLinks = require('jleon-md-links');
+const {mdLinks} = require('jleon-md-links');
 ```
 
 This is the function you will use:
