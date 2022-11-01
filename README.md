@@ -74,7 +74,7 @@ mdLinks("./some/dir", { validate: false })
 
 mdLinks("./some/dir", { validate: true })
   .then(links => console.log(links)
-    // => [{ href, text, file }, ...]
+    // => [{ href, text, file, status, ok }, ...]
   )
   .catch(console.error);
 ```
