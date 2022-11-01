@@ -54,7 +54,7 @@ Examples (results as comments):
 ```js
 const {mdLinks} = require("jleon-md-links");
 
-mdLinks("./some/example.md")
+mdLinks("./some/example.md", { validate: false })
   .then(links => console.log(links)
     // => [{ href, text, file }, ...]
   )
@@ -66,7 +66,13 @@ mdLinks("./some/example.md", { validate: true })
   )
   .catch(console.error);
 
-mdLinks("./some/dir")
+mdLinks("./some/dir", { validate: false })
+  .then(links => console.log(links)
+    // => [{ href, text, file }, ...]
+  )
+  .catch(console.error);
+
+mdLinks("./some/dir", { validate: true })
   .then(links => console.log(links)
     // => [{ href, text, file }, ...]
   )
