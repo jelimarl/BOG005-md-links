@@ -52,7 +52,7 @@ With `validate:true` :
 
 Examples (results as comments):
 ```js
-const mdLinks = require("jleon-md-links");
+const {mdLinks} = require("jleon-md-links");
 
 mdLinks("./some/example.md")
   .then(links => console.log(links)
